@@ -15,7 +15,7 @@ import com.certichain.document.model.PrivateDocumentAuditLog;
 import com.certichain.document.model.PublicDocument;
 import com.certichain.document.model.PublicDocumentAuditLog;
 
-@FeignClient(name = "gateway-service", url = "http://grupo8jwt.ddns.net:8080/")
+@FeignClient(name = "gateway-service", url = "http://localhost:8080/")
 public interface BlockChainGatewayClient {
 
     @PostMapping("/privatedocuments")
