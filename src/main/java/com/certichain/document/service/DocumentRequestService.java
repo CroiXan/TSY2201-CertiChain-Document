@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.certichain.document.model.DocumentRequest;
@@ -13,9 +16,11 @@ import com.certichain.document.repository.DocumentRequestRepository;
 public class DocumentRequestService {
 
     private final DocumentRequestRepository docRepo;
+    private final MongoTemplate template;
 
-    public DocumentRequestService(DocumentRequestRepository docRepo) {
+    public DocumentRequestService(DocumentRequestRepository docRepo, MongoTemplate template) {
         this.docRepo = docRepo;
+        this.template = template;
     }
 
     public List<DocumentRequest> getAll(){
@@ -67,4 +72,27 @@ public class DocumentRequestService {
     public List<DocumentRequest> getByDate(Date startDate, Date endDate) {
         return docRepo.findByDateBetween(startDate, endDate);
     }
+
+    public List<DocumentRequest> getByFilters(
+        String requesterID,
+        String issuerID,
+        Date from,
+        Date to
+    ) {
+        Query q = new Query();
+        if (requesterID != null && !requesterID.isBlank()) {
+            q.addCriteria(Criteria.where("RequesterID").is(requesterID));
+        }
+        if (issuerID != null && !issuerID.isBlank()) {
+            q.addCriteria(Criteria.where("IssuerID").is(issuerID));
+        }
+        if (from != null) {
+            q.addCriteria(Criteria.where("Date").gte(from));
+        }
+        if (to != null) {
+            q.addCriteria(Criteria.where("Date").lte(to));
+        }
+        return template.find(q, DocumentRequest.class);
+    }
+
 }

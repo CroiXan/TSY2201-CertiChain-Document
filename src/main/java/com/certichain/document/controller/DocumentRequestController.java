@@ -78,4 +78,16 @@ public class DocumentRequestController {
         return service.getByDate(start, end);
     }
 
+    @GetMapping("/search")
+    public List<DocumentRequest> search(
+        @RequestParam(required = false) String requesterID,
+        @RequestParam(required = false) String issuerID,
+        @RequestParam(required = false)
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
+        @RequestParam(required = false)
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate
+    ) {
+        return service.getByFilters(requesterID, issuerID, startDate, endDate);
+    }
+
 }
