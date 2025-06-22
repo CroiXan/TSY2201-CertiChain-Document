@@ -43,11 +43,11 @@ public class DocumentController {
 
     @PostMapping("/upload/{id}")
     public ResponseEntity<DocumentRequest> uploadDocument(
-            @PathVariable String docRequestId,
+            @PathVariable String id,
             @RequestParam("file") MultipartFile file) throws IOException {
         return ResponseEntity.status(HttpStatus.OK).body(
             documentService.uploadDocument(
-                docRequestId, 
+                id, 
                 file.getOriginalFilename(), 
                 file.getInputStream(), 
                 file.getContentType()).orElse(new DocumentRequest()));

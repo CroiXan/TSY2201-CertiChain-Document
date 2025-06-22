@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 
 import com.certichain.document.client.BlockChainGatewayClient;
@@ -87,7 +88,7 @@ public class DocumentService {
 
         Optional<DocumentRequest> updatedRequest = documentRequestService.updateDocumentRequest(request);
 
-        UploadS3FileResponse fileResponse = s3Service.uploadFile(request.getRequesterID() + "-" + request.getId(), data, contentType);
+        UploadS3FileResponse fileResponse = s3Service.uploadFile(request.getRequesterID() + "-" + request.getId() + "." + FilenameUtils.getExtension(fileName), data, contentType);
 
         PublicDocument newDocument = new PublicDocument();
         newDocument.setDocumentId(request.getId());
