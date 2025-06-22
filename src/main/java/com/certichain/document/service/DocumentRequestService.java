@@ -48,6 +48,20 @@ public class DocumentRequestService {
         
     }
 
+    public Optional<DocumentRequest> updateDocumentRequestStatus(String Id, String status){
+
+        Optional<DocumentRequest> findedRequest = docRepo.findById(Id);
+
+        if(findedRequest.isPresent()){
+            DocumentRequest request = findedRequest.get();
+            request.setState(status);
+            return Optional.of(docRepo.save(request));
+        }else{
+            return Optional.empty();
+        }
+        
+    }
+
     public boolean deleteDocumentRequestById(String Id){
         docRepo.deleteById(Id);
 
