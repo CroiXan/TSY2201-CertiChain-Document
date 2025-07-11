@@ -5,6 +5,9 @@ public class SearchDocumentRequestInfo {
     private DocumentRequest documentRequest;
     private PrivateDocument privateDocument;
 
+    public SearchDocumentRequestInfo() {
+    }
+
     public SearchDocumentRequestInfo(DocumentRequest documentRequest, PrivateDocument privateDocument) {
         this.documentRequest = documentRequest;
         this.privateDocument = privateDocument;
