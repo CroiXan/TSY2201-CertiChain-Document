@@ -100,12 +100,12 @@ public class DocumentRequestService {
         if (issuerID != null && !issuerID.isBlank()) {
             q.addCriteria(Criteria.where("IssuerID").is(issuerID));
         }
-        if (from != null) {
-            q.addCriteria(Criteria.where("Date").gte(from));
-        }
-        if (to != null) {
-            q.addCriteria(Criteria.where("Date").lte(to));
-        }
+        if (from != null || to != null) {
+        Criteria dateCrit = Criteria.where("Date");
+        if (from != null) dateCrit = dateCrit.gte(from);
+        if (to   != null) dateCrit = dateCrit.lte(to);
+        q.addCriteria(dateCrit);
+    }
         return template.find(q, DocumentRequest.class);
     }
 
